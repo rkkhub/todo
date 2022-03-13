@@ -1,0 +1,7 @@
+FROM node:alpine as builder
+
+RUN mkdir /frontend
+WORKDIR /frontend
+RUN npm install
+
+CMD [ "npm", "run", "start" ]
