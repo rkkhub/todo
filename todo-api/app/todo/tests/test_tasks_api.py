@@ -12,8 +12,8 @@ from todo.serializers import TaskSerializer
 TASKS_URL = reverse('todo:task-list')
 
 
-def detail_url(args):
-    return reverse('todo:task-list', args)
+def detail_url(task_id):
+    return reverse('todo:task-detail', args=[task_id])
 
 
 def sample_task(user, **kwargs):
@@ -83,3 +83,13 @@ class PrivateTodoTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         self.assertEqual(payload['title'], res.data['title'])
+
+    def test_delete_task_api(self):
+        """Test delete task by ID api function"""
+        task = Task.objects.create(user=self.user, title='delete task test')
+        res = self.client.delete(detail_url(task.id))
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+        res_nonExist_task = self.client.delete(detail_url(task.id))
+        self.assertEqual(res_nonExist_task.status_code,
+                         status.HTTP_404_NOT_FOUND)

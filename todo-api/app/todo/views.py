@@ -9,7 +9,8 @@ from todo import serializers
 
 class TaskViewSet(viewsets.GenericViewSet,
                   mixins.ListModelMixin,
-                  mixins.CreateModelMixin):
+                  mixins.CreateModelMixin,
+                  mixins.DestroyModelMixin):
     """ Class based view to Create, update, delete task"""
     authentication_classes = (BasicAuthentication,)
     permission_classes = (IsAuthenticated,)
