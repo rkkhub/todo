@@ -12,6 +12,18 @@ from todo.serializers import TaskSerializer
 TASKS_URL = reverse('todo:task-list')
 
 
+def detail_url(args):
+    return reverse('todo:task-list', args)
+
+
+def sample_task(user, **kwargs):
+    default = {
+        'title': 'test task-1',
+    }
+    default.update(kwargs)
+    return Task.objects.create(user=user, **default)
+
+
 class PublicTodoTests(TestCase):
     """Tests for all todo api methods"""
 
@@ -36,7 +48,7 @@ class PrivateTodoTests(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(self.user)
 
-    def test_list_tasks(self):
+    def test_list_tasks_api(self):
         """Tests that authenticated user is able to list all tasks"""
         for n in range(5):
             Task.objects.create(user=self.user, title=f"Task{n}")
@@ -56,11 +68,18 @@ class PrivateTodoTests(TestCase):
             password="testpassword")
         Task.objects.create(
             user=user2, title="My test task for other user")
-        task = Task.objects.create(
+        Task.objects.create(
             user=self.user, title="My test task for auth user")
 
         res = self.client.get(TASKS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
-        self.assertEqual(res.data[0], task.title)
+
+    def test_create_task_api(self):
+        """Test that authenticated user is able to create new task"""
+        payload = {'title': 'Create task', }
+        res = self.client.post(TASKS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(payload['title'], res.data['title'])

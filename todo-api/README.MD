@@ -1,3 +1,9 @@
+# Todo - API
+
+### Resources
+[API Security](https://owasp.org/www-project-api-security/)
+
+
 
 Start a new project
 ```
@@ -41,7 +47,7 @@ pass = password
 
 
 user = dev_u@mytodo.com
-pass = password
+pass = 
 <!-- To do API -->
 
 # models
