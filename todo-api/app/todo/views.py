@@ -18,7 +18,7 @@ class TaskViewSet(viewsets.GenericViewSet,
 
     def get_queryset(self):
         """Return object for the current use only"""
-        return self.queryset.filter(user=self.request.user)
+        return self.queryset.filter(user=self.request.user).order_by('-id')
 
     def perform_create(self, serializer):
         """Creates a new recipe with user assigned"""
