@@ -1,58 +1,59 @@
 # Todo - API
+    This is an RESTful API that has basic task manager features
 
-### Resources
-[API Security](https://owasp.org/www-project-api-security/)
+## Schema Description
+1. title (max length: 255) - Task title
+2. completed (default value: False) - Tast status
+3. section (max length: 128, default value: default) - Section to which a task belongs
+4. date - Task created datetime - Date and time when the task was created
 
+## Tech stack - initial setup
+1. [Python](https://www.python.org/)
+2. [Django](https://www.djangoproject.com/) - Web app framework for python
+3. [Django Rest Framework](https://www.django-rest-framework.org/) - REST API framework for django
+4. [Docker](https://www.docker.com/) -  Platform for developing, testing, and running applications
 
-
-Start a new project
+### Django commands
+* Start a new django project
 ```
-docker-compose run --rm app sh -c "django-admin startproject todo"
+django-admin startproject todo
 ```
-
-Start a new app
+* Start a new app
 ```
-docker-compose run --rm app sh -c "python manage.py startapp todo"
+python manage.py startapp todo
 ```
-
-To stage the model changes for database
+* Stage the model changes for database schema
 ```
-docker-compose run --rm app sh -c "python manage.py makemigrations"
+python manage.py makemigrations
 ```
-
-push the changes to the database
+* Push the schema changes to the database
 ```
 docker-compose run --rm app sh -c "python manage.py migrate"
 ```
 
-Run server in local
+### Docker commands
+* Run server in local
 ```
-docker-compose run --rm app sh -c "python manage.py runserver 0:8800"
+docker-compose up
 ```
-
-For testing the setup
+* Stops and removes containers
+```
+docker-compose down
+```
+* Run unit tests and linter check in local environment
 ```
 docker-compose run --rm app sh -c "python manage.py test && flake8"
 ```
-
-To create super user
+* Create super user
 ```
-docker-compose run -it app sh -c "python manage.py createsuperuser"
+docker-compose run app sh -c "python manage.py createsuperuser"
 ```
 
-Dev notes:
+### Dev notes:
 super_user
 user = dev_su@mytodo.com
 pass = password
-
-
-user = dev_u@mytodo.com
-pass = 
-<!-- To do API -->
-
-# models
-
-- Tasks : task (varchar), date created (datetime), due date (date time), user(u_id), completed (bool), sectin (varchar)
-
-
-# Add a new task
+ 
+### Resources and References
+[API Security](https://owasp.org/www-project-api-security/)
+[Mark Down cheat sheet](https://www.markdownguide.org/cheat-sheet/)
